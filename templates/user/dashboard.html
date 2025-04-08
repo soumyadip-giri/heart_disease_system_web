@@ -1,0 +1,131 @@
+{% extends "user/base_user.html" %}
+
+{% block user_title %}Patient Dashboard{% endblock %}
+
+{% block user_content %}
+<div class="row">
+    <!-- Welcome Card -->
+    <div class="col-12 mb-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-0">Welcome, {{ user_name }}!</h3>
+                        <p class="text-muted mb-0">Your heart health dashboard</p>
+                    </div>
+                    <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> New Prediction
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Last Prediction Card -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-heart-pulse"></i> Last Prediction</h5>
+            </div>
+            <div class="card-body text-center">
+                {% if predictions and predictions[0] %}
+                    <div class="display-4 fw-bold {% if predictions[0].prediction == 1 %}text-danger{% else %}text-success{% endif %}">
+                        {{ predictions[0].probability|round(1) }}%
+                    </div>
+                    <p class="card-text">
+                        <span class="badge bg-{% if predictions[0].prediction == 1 %}danger{% else %}success{% endif %}">
+                            {% if predictions[0].prediction == 1 %}High Risk{% else %}Low Risk{% endif %}
+                        </span>
+                        <br>
+                        {{ predictions[0].timestamp.strftime('%b %d, %Y') }}
+                    </p>
+                    <a href="{{ url_for('prediction_report', prediction_id=predictions[0]._id) }}" class="btn btn-outline-primary mt-2">
+                        View Details
+                    </a>
+                {% else %}
+                    <div class="text-muted py-4">
+                        <i class="bi bi-heart-pulse fs-1"></i>
+                        <p class="mt-2">No predictions yet</p>
+                        <a href="{{ url_for('predict') }}" class="btn btn-primary">Make First Prediction</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Card -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('predict') }}" class="btn btn-outline-primary text-start">
+                        <i class="bi bi-heart-pulse me-2"></i> New Heart Disease Prediction
+                    </a>
+                    <a href="{{ url_for('prediction_history') }}" class="btn btn-outline-secondary text-start">
+                        <i class="bi bi-clock-history me-2"></i> View Prediction History
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Health Tips -->
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Heart Health Tips</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 text-primary">
+                                <i class="bi bi-activity fs-1"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Stay Active</h5>
+                                <p class="text-muted">Aim for at least 150 minutes of moderate aerobic activity per week.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 text-primary">
+                                <i class="bi bi-egg-fried fs-1"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Eat Heart-Healthy</h5>
+                                <p class="text-muted">Focus on fruits, vegetables, whole grains, and lean proteins.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 text-primary">
+                                <i class="bi bi-cloud-sun fs-1"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Manage Stress</h5>
+                                <p class="text-muted">Practice relaxation techniques like meditation or deep breathing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

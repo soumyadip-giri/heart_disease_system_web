@@ -1,0 +1,158 @@
+{% extends "user/base_user.html" %}
+
+{% block user_title %}Prediction Report{% endblock %}
+
+{% block user_content %}
+<div class="card shadow-lg mb-4">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-file-earmark-medical me-2"></i> Prediction Report</h4>
+            <span class="badge bg-{% if prediction.prediction == 1 %}danger{% else %}success{% endif %} fs-6">
+                {% if prediction.prediction == 1 %}High Risk{% else %}Low Risk{% endif %}
+            </span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5><i class="bi bi-info-circle"></i> Basic Information</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Date:</span>
+                        <span>{{ prediction.timestamp.strftime('%B %d, %Y %H:%M') }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Risk Probability:</span>
+                        <span class="fw-bold">{{ prediction.probability|round(1) }}%</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5><i class="bi bi-heart-pulse"></i> Key Parameters</h5>
+                <div class="progress mb-2" style="height: 25px;">
+                    <div class="progress-bar bg-warning" role="progressbar" 
+                         style="width: {{ (prediction.features[3]/200*100)|round(0) }}%" 
+                         aria-valuenow="{{ prediction.features[3] }}" aria-valuemin="0" aria-valuemax="200">
+                        BP: {{ prediction.features[3] }} mmHg
+                    </div>
+                </div>
+                <div class="progress mb-2" style="height: 25px;">
+                    <div class="progress-bar bg-info" role="progressbar" 
+                         style="width: {{ (prediction.features[4]/300*100)|round(0) }}%" 
+                         aria-valuenow="{{ prediction.features[4] }}" aria-valuemin="0" aria-valuemax="300">
+                        Cholesterol: {{ prediction.features[4] }} mg/dl
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+          
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                                <th>Normal Range</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="{% if prediction.features[3] > 140 %}table-danger{% endif %}">
+                                <td>Blood Pressure</td>
+                                <td>{{ prediction.features[3] }} mmHg</td>
+                                <td><120 mmHg</td>
+                            </tr>
+                            <tr class="{% if prediction.features[4] > 200 %}table-danger{% endif %}">
+                                <td>Cholesterol</td>
+                                <td>{{ prediction.features[4] }} mg/dl</td>
+                                <td><200 mg/dl</td>
+                            </tr>
+                            <tr class="{% if prediction.features[7] < 150 %}table-warning{% endif %}">
+                                <td>Max Heart Rate</td>
+                                <td>{{ prediction.features[7] }}</td>
+                                <td>150-200</td>
+                            </tr>
+                            <tr class="{% if prediction.features[9] > 1.0 %}table-danger{% endif %}">
+                                <td>ST Depression</td>
+                                <td>{{ prediction.features[9] }}</td>
+                                <td><0.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
+        </div>
+
+        <div class="alert alert-{% if prediction.prediction == 1 %}danger{% else %}success{% endif %} mt-4">
+            <h5><i class="bi bi-exclamation-triangle"></i> Recommendation</h5>
+            {% if prediction.prediction == 1 %}
+                <p>Based on your inputs, you have an elevated risk of heart disease. We strongly recommend:</p>
+                <ul>
+                    <li>Consulting a cardiologist within 2 weeks</li>
+                    <li>Reducing cholesterol and blood pressure</li>
+                    <li>Regular exercise and dietary changes</li>
+                </ul>
+            {% else %}
+                <p>Your heart disease risk appears low based on current metrics. Maintain healthy habits:</p>
+                <ul>
+                    <li>Continue regular checkups</li>
+                    <li>Monitor cholesterol and blood pressure</li>
+                    <li>Maintain balanced diet and exercise</li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-footer text-end">
+        <a href="{{ url_for('prediction_history') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-clock-history"></i> View History
+        </a>
+        <a href="{{ url_for('predict') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> New Prediction
+        </a>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // Radar Chart
+    const radarCtx = document.getElementById('radarChart').getContext('2d');
+    new Chart(radarCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Age', 'BP', 'Cholesterol', 'Max HR', 'ST Depression'],
+            datasets: [{
+                label: 'Your Values',
+                data: [
+                    {{ prediction.features[0] }},
+                    {{ prediction.features[3] }},
+                    {{ prediction.features[4] }},
+                    {{ prediction.features[7] }},
+                    {{ prediction.features[9] }}
+                ],
+                backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                borderColor: 'rgba(13, 110, 253, 1)',
+                pointBackgroundColor: 'rgba(13, 110, 253, 1)',
+                pointRadius: 4
+            }, {
+                label: 'Ideal Values',
+                data: [40, 120, 180, 175, 0.5],
+                backgroundColor: 'rgba(25, 135, 84, 0.2)',
+                borderColor: 'rgba(25, 135, 84, 1)',
+                pointRadius: 4
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: { display: true },
+                    suggestedMin: 0,
+                    suggestedMax: 300
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

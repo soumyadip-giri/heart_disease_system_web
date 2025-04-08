@@ -1,0 +1,89 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_title %}Admin Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="row mb-4">
+    <!-- Stats Cards -->
+    <div class="col-md-4 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="display-4">{{ total_users }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Predictions</h5>
+                <p class="display-4">{{ total_predictions }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">High Risk Cases</h5>
+                <p class="display-4">{{ high_risk }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Predictions -->
+<div class="card shadow mb-4">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Recent Predictions</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Risk</th>
+                        <th>Probability</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pred in recent_predictions %}
+                    <tr>
+                        <td>{{ pred.user_email }}</td>
+                        <td>{{ pred.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <span class="badge bg-{% if pred.prediction == 1 %}danger{% else %}success{% endif %}">
+                                {% if pred.prediction == 1 %}High{% else %}Low{% endif %}
+                            </span>
+                        </td>
+                        <td>{{ pred.probability|round(1) }}%</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Details</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card shadow">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Quick Actions</h5>
+    </div>
+    <div class="card-body">
+        <div class="d-grid gap-2 d-md-flex">
+            <a href="{{ url_for('admin_users') }}" class="btn btn-primary me-md-2">
+                <i class="bi bi-people-fill me-2"></i>Manage Users
+            </a>
+            <a href="{{ url_for('model_performance') }}" class="btn btn-success">
+                <i class="bi bi-graph-up me-2"></i>View Model Performance
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

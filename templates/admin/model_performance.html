@@ -1,0 +1,92 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_title %}Model Performance{% endblock %}
+
+{% block admin_content %}
+
+
+<div class="card shadow">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Performance Metrics</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Model</th>
+                        <th>Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SVM</td>
+                        <td>{{ data.svm.accuracy|round(2) }}</td>
+                        <td>{{ data.svm.precision|round(2) }}</td>
+                        <td>{{ data.svm.recall|round(2) }}</td>
+                        <td>{{ ((2 * data.svm.precision * data.svm.recall)/(data.svm.precision + data.svm.recall))|round(2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Decision Tree</td>
+                        <td>{{ data.decision_tree.accuracy|round(2) }}</td>
+                        <td>{{ data.decision_tree.precision|round(2) }}</td>
+                        <td>{{ data.decision_tree.recall|round(2) }}</td>
+                        <td>{{ ((2 * data.decision_tree.precision * data.decision_tree.recall)/(data.decision_tree.precision + data.decision_tree.recall))|round(2) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // Accuracy Comparison Chart
+    const accCtx = document.getElementById('accuracyChart').getContext('2d');
+    new Chart(accCtx, {
+        type: 'bar',
+        data: {
+            labels: ['SVM', 'Decision Tree'],
+            datasets: [{
+                label: 'Accuracy',
+                data: [{{ data.svm.accuracy|round(2) }}, {{ data.decision_tree.accuracy|round(2) }}],
+                backgroundColor: ['rgba(13, 110, 253, 0.7)', 'rgba(25, 135, 84, 0.7)']
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true, max: 1 } }
+        }
+    });
+    
+
+    // Precision-Recall Chart
+    const prCtx = document.getElementById('prChart').getContext('2d');
+    new Chart(prCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Precision', 'Recall'],
+            datasets: [
+                {
+                    label: 'SVM',
+                    data: [{{ data.svm.precision|round(2) }}, {{ data.svm.recall|round(2) }}],
+                    backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                    borderColor: 'rgba(13, 110, 253, 1)'
+                },
+                {
+                    label: 'Decision Tree',
+                    data: [{{ data.decision_tree.precision|round(2) }}, {{ data.decision_tree.recall|round(2) }}],
+                    backgroundColor: 'rgba(25, 135, 84, 0.2)',
+                    borderColor: 'rgba(25, 135, 84, 1)'
+                }
+            ]
+        },
+        options: {
+            scales: { r: { angleLines: { display: true }, suggestedMin: 0, suggestedMax: 1 } }
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

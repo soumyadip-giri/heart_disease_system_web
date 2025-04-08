@@ -1,0 +1,49 @@
+.min-vh-80 {
+    min-height: 80vh;
+}
+
+.auth-card {
+    max-width: 500px;
+    margin: 2rem auto;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.auth-header {
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+}
+
+/* Form elements in auth cards */
+.auth-card .form-control,
+.auth-card .form-select {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+}
+
+.auth-card .btn {
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Illustration styling */
+.heart-illustration {
+    max-height: 250px;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+
+/* Role-specific colors */
+.user-role {
+    background-color: #0d6efd;
+}
+
+.admin-role {
+    background-color: #dc3545;
+}
+
+/* Alert customization */
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+}
