@@ -95,6 +95,10 @@ footer {
 
 /* founders card */
 
+.team-mem{
+    display: flex;
+}
+
 .founder_cards{
     display: flex;
     column-gap: 150px;
