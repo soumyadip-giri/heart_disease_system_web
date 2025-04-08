@@ -86,7 +86,10 @@ footer {
     }
 }
 .img-fluid{
-    margin-left: 30%;
+    margin-left: 10%;
+    height: 40vh;
+    width: 20vw;
+    margin-top: 5%;
 }
 
 .founder_cards{
@@ -101,7 +104,8 @@ footer {
 
 .founder_cards{
     display: flex;
-    column-gap: 150px;
+    column-gap: 50px;
+    align-self: center;
 }
 
 .card-text{
@@ -115,7 +119,28 @@ footer {
 #re_direct_ids{
     text-align: center;
 }
+.founders{
+    box-shadow: 5px 5px;
+    background-color: #ffffff;
+    transition: all 0.3s ease-in-out;
+    height: 57vh;
+    width: 5270;
 
+}
+
+.founders:hover{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+}
+
+.founders-img-top{
+    height: 20vh;
+    width: 17vw;
+    margin-top: 2%;
+    animation: appear linear;
+    animation-timeline: view() ;
+    animation-range: entry 0% cover 40% ;
+}
 @keyframes appear{
     from{
         opacity: 0;
@@ -126,3 +151,29 @@ footer {
         scale: 1;
     }
 }
+
+#priyanshu_img{
+    height: 270px;
+    width: 276px;
+    margin-left: 4.5%;
+}
+
+#aritra_img{
+    height:270px ;
+    width:265px ;
+    margin-left:4.5% ;
+    
+}
+
+#soumyadip_img{
+    height:270px ;
+    width: 275px;
+    margin-left: 4.5%;
+}
+
+#abin_img{
+    height:270px ;
+    width: 275px;
+    margin-left: 4.5%;
+}
+
