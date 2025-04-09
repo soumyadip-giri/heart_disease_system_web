@@ -106,6 +106,7 @@ footer {
     display: flex;
     column-gap: 50px;
     align-self: center;
+    padding-top: 3%;
 }
 
 .card-text{
@@ -177,3 +178,26 @@ footer {
     margin-left: 4.5%;
 }
 
+#tm_txt{
+    align-self: center;
+    font-family: verdana, geneva, tahoma, sans serif;
+    font-size: 3rem;
+    color: transparent;
+    -webkit-text-stroke: darkmagenta;
+    position: relative;
+    
+}
+#tm_txt::before{
+    content: "TEAM-MATES";
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    overflow: hidden;
+    color: rgb(125, 40, 200);
+    border-right: 6px solid rgb(125, 40, 200);
+    transition: 0.9s ease-in;
+}
+#tm_txt:hover:before{
+    width: 100%;
+    filter: drop-shadow(0 0 25px rgb(125, 40, 200));
+}
