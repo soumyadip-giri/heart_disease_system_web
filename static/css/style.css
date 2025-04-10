@@ -86,7 +86,10 @@ footer {
     }
 }
 .img-fluid{
-    margin-left: 30%;
+    margin-left: 10%;
+    height: 40vh;
+    width: 20vw;
+    margin-top: 5%;
 }
 
 .founder_cards{
@@ -101,7 +104,9 @@ footer {
 
 .founder_cards{
     display: flex;
-    column-gap: 150px;
+    column-gap: 50px;
+    align-self: center;
+    padding-top: 3%;
 }
 
 .card-text{
@@ -115,7 +120,28 @@ footer {
 #re_direct_ids{
     text-align: center;
 }
+.founders{
+    box-shadow: 5px 5px;
+    background-color: #ffffff;
+    transition: all 0.3s ease-in-out;
+    height: 57vh;
+    width: 5270;
 
+}
+
+.founders:hover{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+}
+
+.founders-img-top{
+    height: 20vh;
+    width: 17vw;
+    margin-top: 2%;
+    animation: appear linear;
+    animation-timeline: view() ;
+    animation-range: entry 0% cover 40% ;
+}
 @keyframes appear{
     from{
         opacity: 0;
@@ -125,4 +151,53 @@ footer {
         opacity: 1;
         scale: 1;
     }
+}
+
+#priyanshu_img{
+    height: 270px;
+    width: 276px;
+    margin-left: 4.5%;
+}
+
+#aritra_img{
+    height:270px ;
+    width:265px ;
+    margin-left:4.5% ;
+    
+}
+
+#soumyadip_img{
+    height:270px ;
+    width: 275px;
+    margin-left: 4.5%;
+}
+
+#abin_img{
+    height:270px ;
+    width: 275px;
+    margin-left: 4.5%;
+}
+
+#tm_txt{
+    align-self: center;
+    font-family: verdana, geneva, tahoma, sans serif;
+    font-size: 3rem;
+    color: transparent;
+    -webkit-text-stroke: darkmagenta;
+    position: relative;
+    
+}
+#tm_txt::before{
+    content: "TEAM-MATES";
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    overflow: hidden;
+    color: rgb(125, 40, 200);
+    border-right: 6px solid rgb(125, 40, 200);
+    transition: 0.9s ease-in;
+}
+#tm_txt:hover:before{
+    width: 100%;
+    filter: drop-shadow(0 0 25px rgb(125, 40, 200));
 }

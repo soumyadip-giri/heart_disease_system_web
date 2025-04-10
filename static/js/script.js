@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Close flash messages after 5 seconds
+    // Close flash messages after 10min
     setTimeout(() => {
         const alerts = document.querySelectorAll('.alert');
         alerts.forEach(alert => {
