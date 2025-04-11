@@ -23,14 +23,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>SVM</td>
+                        <td>Decision Tree</td>
                         <td>{{ data.svm.accuracy|round(2) }}</td>
                         <td>{{ data.svm.precision|round(2) }}</td>
                         <td>{{ data.svm.recall|round(2) }}</td>
                         <td>{{ ((2 * data.svm.precision * data.svm.recall)/(data.svm.precision + data.svm.recall))|round(2) }}</td>
                     </tr>
                     <tr>
-                        <td>Decision Tree</td>
+                        <td>SVM</td>
                         <td>{{ data.decision_tree.accuracy|round(2) }}</td>
                         <td>{{ data.decision_tree.precision|round(2) }}</td>
                         <td>{{ data.decision_tree.recall|round(2) }}</td>
