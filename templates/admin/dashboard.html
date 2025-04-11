@@ -45,7 +45,6 @@
                         <th>Date</th>
                         <th>Risk</th>
                         <th>Probability</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,9 +58,6 @@
                             </span>
                         </td>
                         <td>{{ pred.probability|round(1) }}%</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary">Details</button>
-                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
