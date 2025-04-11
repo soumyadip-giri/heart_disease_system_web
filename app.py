@@ -85,7 +85,7 @@ def user_login():
 # --------------------------
 @app.route('/admin/register', methods=['GET', 'POST'])
 def admin_register():
-    if users.count_documents({'role': 'admin'}) > 1:
+    if users.count_documents({'role': 'admin'}) > 4:
         flash('Admin registration is restricted!', 'danger')
         return redirect(url_for('home'))
 
